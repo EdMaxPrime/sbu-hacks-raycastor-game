@@ -45,4 +45,11 @@ class Camera {
 	hasNextRay(){
     return this.current < this.resolution;
   }
+
+  inverseMatrix(){
+    var plane = this.direction.copy().rotate(HALF_PI);
+    plane.setMag(this.planeLength);
+    var det = 1 / (plane.x * this.direction.y - this.direction.x * plane.y);
+    return [det * this.direction.y, -1 * det * this.direction.x, -1 * det * plane.y, det * plane.x]; 
+  }
 }
