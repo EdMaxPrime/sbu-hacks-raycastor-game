@@ -4,6 +4,8 @@ var player;
 var renderer;
 var textures = [[], [], []];
 var heightOverDistance;
+var state;
+var MAIN_MENU = 0, MAZE = 1;
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
@@ -25,19 +27,22 @@ function setup() {
 	});
 	renderer = new RayCastor(new Camera(0, 0, radians(45), 100), new World());
 	player = new Player(renderer);
+	state = MAZE;
 }
 
 function draw() {
-	render();
-  if(keyIsDown(UP_ARROW)) {
-    player.forward();
-  } else if(keyIsDown(DOWN_ARROW)) {
-    player.backward();
-  } else if(keyIsDown(LEFT_ARROW)) {
-    player.turn(-1);
-  } else if(keyIsDown(RIGHT_ARROW)) {
-    player.turn(1);
-  }
+	if(state == MAZE) {
+		render();
+		if(keyIsDown(UP_ARROW)) {
+			player.forward();
+		} else if(keyIsDown(DOWN_ARROW)) {
+			player.backward();
+		} else if(keyIsDown(LEFT_ARROW)) {
+			player.turn(-1);
+		} else if(keyIsDown(RIGHT_ARROW)) {
+			player.turn(1);
+		}
+	}
 }
 
 function keyPressed() {
