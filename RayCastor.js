@@ -80,7 +80,7 @@ class RayCastor {
 			if(solid == null) r.grow(); //nothing there
 			else break; //hit something
 		}
-		return s;
+		return solid;
 	}
 	/* Returns the array of stripes to be drawn drawn */
 	getTerrainBuffer() {
