@@ -31,7 +31,19 @@ class World {
 			this.needToUpdate[i].update();
 		}
 	}
-	getEntities() {}
+	/* Used to search for entities
+	@param x, y, w, h  the bounding box to search in
+	@return            an empty array if none are in the area or an array filled with entties inside or partially touching the box
+	*/
+	getEntities(x, y, w, h) {
+		var intersected = [];
+		for(var i = 0; i < this.entities.length; i++) {
+			if(objectsTouch(this.entities[i].x, this.entities[i].y, this.entities[i].w, this.entities[i].h, x, y, w, h)) {
+				intersected.push(this.entities[i]);
+			}
+		}
+		return intersected;
+	}
 }
 
 class QuadTree {
