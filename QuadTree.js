@@ -4,6 +4,7 @@ class World {
 		this.terrain = new QuadTree(this);
 		this.sky = 2;
 		this.needToUpdate = [];
+		this.entities = [];
 	}
 	whatsThere(x, y, z) {
 		z = z || 1;
@@ -30,6 +31,7 @@ class World {
 			this.needToUpdate[i].update();
 		}
 	}
+	getEntities() {}
 }
 
 class QuadTree {
@@ -70,6 +72,14 @@ class QuadTree {
   }
 }
 
+
+/* 
+Returns true if the two bounding boxes intersect
+*/
+function objectsTouch(x1, y1, w1, h1, x2, y1, w2, h2) {
+	
+}
+
 class Node {
 	constructor(x, y, w, h, p, m) {
 		this.parent = p;
@@ -98,13 +108,15 @@ class Node {
 	remove(object) {
 		//
 	}
+	/* Given a box to search in, will return an array of objects in this node and all of its children that fall into those bounds */
 	search(x, y, w, h) {}
-	/* Given an object with x,y,w,h will return true if any part of that object is in the boundaries of this node */
+	/* Given an object with x,y,w,h atttributes, will return true if any part of that object is in the boundaries of this node */
 	inbounds(object) {
 		let x1 = object.x, x2 = object.x + object.w;
 		let y1 = object.y, y2 = object.y + object.h;
 		return (x2 >= this.x) && (x1 < this.x + this.w) && (y2 >= this.y) && (y1 < this.y + this.h);
 	}
+	/* Called when 4 child nodes need to be created */
 	divide() {
 		this.children[0] = new Node(this.x, this.y, this.w/2, this.h/2, this, this.maxChildren);
 		this.children[1] = new Node(this.x + this.w/2, this.y, this.w/2, this.h/2, this, this.maxChildren);

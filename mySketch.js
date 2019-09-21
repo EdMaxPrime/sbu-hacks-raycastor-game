@@ -6,6 +6,7 @@ var textures = [[], [], []];
 var heightOverDistance;
 var state;
 var MAIN_MENU = 0, MAZE = 1;
+var player_score = 0;
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
@@ -43,6 +44,10 @@ function draw() {
 		} else if(keyIsDown(RIGHT_ARROW)) {
 			player.turn(1);
 		}
+		fill(0);
+		rect(0, 0, 60, 20);
+		fill(255);
+		text("Score: " + player_score, 10, 16);
 	}
 }
 
