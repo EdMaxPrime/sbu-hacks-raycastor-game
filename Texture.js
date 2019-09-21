@@ -27,6 +27,7 @@ class ColorTexture {
 	@param yOffset   a percent from 0-1 how much to draw the texture vertically from the bottom. 1 means whole thing, 0.5 means bottom half...
 	*/
 	render(side, where, distance, x, w, yOffset) {
+		yOffset = yOffset || 1; //default value is 1
 		if(side % 2 == NORTH_SOUTH) {
 			fill(this.mycolor);
 		} else {
