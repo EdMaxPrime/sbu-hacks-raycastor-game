@@ -12,11 +12,10 @@ function stripe_height(distance, start, end) {
 }
 
 class ColorTexture {
-	constructor(c, half) {
-		this.half = half || false;
+	constructor(c) {
 		this.mycolor = c;
 		colorMode(HSB, 360, 100, 100, 255);
-    this.darker = color(hue(this.mycolor), saturation(this.mycolor), brightness(this.mycolor)/2, alpha(this.mycolor));
+		this.darker = color(hue(this.mycolor), saturation(this.mycolor), brightness(this.mycolor)/2, alpha(this.mycolor));
 		colorMode(RGB, 255, 255, 255, 255);
 	}
 	/* Draws a slice of this texture onto the screen
@@ -25,8 +24,9 @@ class ColorTexture {
 	@param distance  how far away the camera is. Bigger distance means smaller slice height.
 	@param x         the on-screen X coordinate where to draw the texture
 	@param w         the width of the on-screen slice
+	@param yOffset   a percent from 0-1 how much to draw the texture vertically from the bottom. 1 means whole thing, 0.5 means bottom half...
 	*/
-	render(side, where, distance, x, w) {
+	render(side, where, distance, x, w, yOffset) {
 		if(side % 2 == NORTH_SOUTH) {
 			fill(this.mycolor);
 		} else {
@@ -34,11 +34,7 @@ class ColorTexture {
 		}
 		rectMode(CORNER);
 		var stripeHeight = heightOverDistance.value(distance);
-		if(this.half == true) {
-			rect(x, height/2, w, stripeHeight/2);
-		} else {
-			rect(x, (height - stripeHeight)/2, w, stripeHeight);
-		}
+		rect(x, (height - (yOffset * stripeHeight))/2, w, yOffset * stripeHeight);
 	}
 	/* Used for drawing the floor, pixel by pixel 
 	@param floorX  the floating point coordinate on the grid (0 to dimension of the world)
