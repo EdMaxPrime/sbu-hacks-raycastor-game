@@ -8,10 +8,14 @@ class Player {
     this.turningSpeed = (PI / 90);
   }
 
+  canWalkThrough(solid) {
+    return (solid == null) || (solid.walkThrough == true);
+  }
+
   forward() {
     let x = this.cam.xpos + this.cam.direction.x * this.walkingSpeed;
     let y = this.cam.ypos + this.cam.direction.y * this.walkingSpeed;
-		if(this.world.whatsThere(parseInt(x), parseInt(y)) == null) {
+		if(this.canWalkThrough(this.world.whatsThere(parseInt(x), parseInt(y)))) {
 			this.cam.xpos = x;
 			this.cam.ypos = y;
 		}
@@ -66,4 +70,8 @@ class Player {
 			//loop through each floor texture hit in this stripe
     }
 	}
+
+  updateWorld() {
+    this.world.update();
+  }
 }

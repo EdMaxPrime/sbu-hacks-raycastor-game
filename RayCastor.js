@@ -37,7 +37,7 @@ class RayCastor {
 				where -= floor(where); //we only need the decimal portion of this variable
 				let wallDist = r.perpWallDist();
 				pointsOnFloor.push([this.world.whatsThere(r.getMapX(), r.getMapY(), 0), r.getMapX(), r.getMapY(), wallDist]);
-				if (solid == null) {
+				if (solid == null || solid.opacity == 0) {
 					r.grow(); //nothing there, keep going
 				} else if (solid.opacity < 1) {
 					stackOfHitObjects.push([solid, r.sideHit, where, wallDist]);
