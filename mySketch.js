@@ -32,6 +32,7 @@ function setup() {
 
 function draw() {
 	if(state == MAZE) {
+		player.updateWorld();
 		render();
 		if(keyIsDown(UP_ARROW)) {
 			player.forward();
@@ -62,6 +63,12 @@ function render() {
 
 function mouseReleased() {
 	//shoot laser
+	var door = renderer.lookingAt();
+	if(door.open) {
+		door.open();
+		print("open");
+	}
+	print("no door");
 }
 
 class Memoized {

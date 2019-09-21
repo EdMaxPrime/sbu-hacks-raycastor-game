@@ -1,8 +1,9 @@
 class World {
 	constructor() {
 		this.floor = 0;
-		this.terrain = new QuadTree();
+		this.terrain = new QuadTree(this);
 		this.sky = 2;
+		this.needToUpdate = [];
 	}
 	whatsThere(x, y, z) {
 		z = z || 1;
@@ -15,19 +16,34 @@ class World {
 			return this.terrain.whatsThere(x, y);
 		}
 	}
+	pleaseUpdate(solid) {
+		this.needToUpdate.push(solid);
+	}
+	stopUpdating(solid) {
+		var index = this.needToUpdate.indexOf(solid);
+		if(index != -1) {
+			this.needToUpdate.splice(index, 1);
+		}
+	}
+	update() {
+		for(var i = 0; i < this.needToUpdate.length; i++) {
+			this.needToUpdate[i].update();
+		}
+	}
 }
 
 class QuadTree {
-	constructor() {
-		var str = "  RRRRRRRRR\n" +
-							"Y         G\n" +
-							"Y         G\n" +
-							"Y  YYYY  GR\n" +
-							"Y  Y  YY  R\n" +
-							"Y         R\n" +
-							"Y         R\n" +
-							"RRRRRRRRRRR";
+	constructor(world) {
+		var str = 	" DRRRRRRRRR\n" +
+					"Y         G\n" +
+					"Y         G\n" +
+					"Y  YYYY  GR\n" +
+					"Y  Y  YY  R\n" +
+					"Y         R\n" +
+					"Y         R\n" +
+					"RRRRRRRRRRR";
 		this.world = [[]];
+		this.updater = world;
 		let y = 0;
 		let x = 0;
 		for(var i = 0; i < str.length; i++) {
@@ -39,7 +55,8 @@ class QuadTree {
 			else if(str.charAt(i) == " ") {this.world[y].push(null); x++;}
 			else if(str.charAt(i) == "R") {this.world[y].push(new Solid(x, y, 1, new PatternTexture(textures[0]))); x++;}
 			else if(str.charAt(i) == "Y") {this.world[y].push(new Solid(x, y, 1, new ColorTexture("yellow"))); x++;}
-			else if(str.charAt(i) == "G") {this.world[y].push(new Solid(x, y, 0, new ColorTexture("green", true))); x++;}
+			else if(str.charAt(i) == "G") {this.world[y].push(new Solid(x, y, 1, new ColorTexture("green"))); x++;}
+			else if(str.charAt(i) == "D") {this.world[y].push(new  Door(x, y, new ColorTexture("green"), this.updater)); x++;}
 		}
 	}
 	whatsThere(x, y) {
