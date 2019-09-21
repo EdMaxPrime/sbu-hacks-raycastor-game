@@ -1,40 +1,54 @@
 class Solid{
-  constructor(x, y, o, _texture){
-      this.xpos = x;
-      this.ypos = y;
-			this.width = 1;
-			this.height = 1;
-      this.texture = _texture;
-      this.opacity = o; //ranges from 0 (invisible) to 1 (blocks everything behind it)
-  }
-	/* Returns an image object that is 1 pixel wide */
-	drawStripe(whichSide, where, distance, x, w){
-    if(whichSide == EAST_WEST) 
-			return this.texture.render(whichSide, where, distance, x, w);
-    return this.texture.render(whichSide, where, distance, x, w);
-  }
-}
-
-class HalfSolid {
-	constructor(x, y, c){
+	constructor(x, y, o, _texture){
 		this.xpos = x;
 		this.ypos = y;
 		this.width = 1;
 		this.height = 1;
-		this.mycolor = c;
-		colorMode(HSB, 360, 100, 100, 255);
-    this.darker = color(hue(this.mycolor), saturation(this.mycolor), brightness(this.mycolor)/2, alpha(this.mycolor));
-		colorMode(RGB, 255, 255, 255, 255);
-		this.opacity = 0.5; //ranges from 0 (invisible) to 1 (blocks everything behind it)
-  }
+		this.texture = _texture;
+		this.opacity = o; //ranges from 0 (invisible) to 1 (blocks everything behind it)
+	}
 	/* Returns an image object that is 1 pixel wide */
 	drawStripe(whichSide, where, distance, x, w){
-    if(whichSide % 2 == NORTH_SOUTH) {
-			fill(this.mycolor);
-		} else {
-			fill(this.darker);
+		this.texture.render(whichSide, where, distance, x, w, 1);
+	}
+}
+
+class Door {
+	constructor(x, y, _texture) {
+		this.xpos = x;
+		this.ypos = y;
+		this.texture = _texture;
+		this.opacity = 1;
+		this.progress = 1; //0 = open, 1 = closed
+		this.direction = 0;
+	}
+	drawStripe(whichSide, where, distance, x, w) {
+		this.texture.render(whichSide, where, distance, x, w, this.progress);
+	}
+	open() {
+		this.opacity = 0;
+		this.direction = -0.1;
+	}
+	close() {
+		this.opacity = 0;
+		this.direction = +0.1;
+	}
+	update() {
+		//check for completely closed
+		if(this.progress >= 1 && this.direction > 0) {
+			this.progress = 1;
+			this.opacity = 1;
+			this.direction = 0;
 		}
-		rectMode(CORNER);
-		rect(x, height/2, w, height/(2*distance));
-  }	
+		//check for completely open
+		else if(this.progress <= 0 && this.direction < 0) {
+			this.progress = 0;
+			this.opacity = 0;
+			this.direction = 0;
+		}
+		//check for closing/opening door
+		else {
+			this.progress += this.direction;
+		}
+	}
 }
