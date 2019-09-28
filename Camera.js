@@ -4,8 +4,8 @@ class Camera {
 		this.ypos = y; //(float) camera position in world
 		this.resolution = res; //(int) at most = WIDTH, controls how many rays we need to generate
 		this.direction = p5.Vector.fromAngle(angle); //(PVector) direction of the camera
-		this.current = 0; //(float)length of the camera plane, about 0.66
-		this.planeLength = 0.66; //(int) which ray we are doing right now
+		this.current = 0; //(int) which ray we are doing right now
+		this.planeLength = 0.66; //(float)length of the camera plane, about 0.66
 	}
   rotate(angle){
     this.direction.rotate(angle);
