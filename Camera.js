@@ -11,11 +11,21 @@ class Camera {
     this.direction.rotate(angle);
   }
 	getAngle() { return this.direction.heading(); }
+  /* Shrinks the angle of the Field of Vision with a shorter camera plane length. This has the effect of zooming in on the center ray. This function has a hard bound at 5 degrees. */
 	zoomIn(){
-    this.resolution = round(this.resolution * 0.9);
+    var angle = 2 * Math.atan(this.planeLength);
+    angle -= 5;
+    if(angle < 5) angle = 5;
+    else if(angle > 175) angle = 175;
+    this.planeLength = Math.tan(angle / 2);
   }
+  /* Expands the angle of the Field of Vision with a longer camera plane length. This has the effect of zooming out on the center ray. This function has a hard bound at 175 degrees. */
 	zoomOut() {
-    this.resolution = round(this.resolution / 0.9);
+    var angle = 2 * Math.atan(this.planeLength);
+    angle -= 5;
+    if(angle < 5) angle = 5;
+    else if(angle > 175) angle = 175;
+    this.planeLength = Math.tan(angle / 2);
   }
 	setResolution(res){
     if(res > 1 && res < width) this.resolution = res;
