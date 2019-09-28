@@ -9,7 +9,7 @@ var player_score = 0;
 var textures = [];
 
 function preload() {
-	textures[0] = loadImage("blocks.jpeg");
+	textures[0] = loadImage("block.jpeg");
 }
 
 function setup() {
@@ -20,6 +20,7 @@ function setup() {
 			array.push({key: i, value: height / i});
 		}
 	});
+	textures[0].loadPixels();
 	renderer = new RayCastor(new Camera(0, 0, radians(45), 100), new World());
 	player = new Player(renderer);
 	state = MAZE;

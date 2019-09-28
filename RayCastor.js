@@ -33,7 +33,7 @@ class RayCastor {
 				// }
 
 				var where; //from 0 to 1, the xCoord of the texture
-				if (r.sideHit % 2 == EAST_WEST) where = r.startX + r.perpWallDist() * r.vector.y; //east-west (side = 0)
+				if (r.sideHit % 2 == EAST_WEST) where = r.startY + r.perpWallDist() * r.vector.y; //east-west (side = 0)
 				else                            where = r.startX + r.perpWallDist() * r.vector.x; //north-south (side = 1)
 				where -= floor(where); //we only need the decimal portion of this variable
 				let wallDist = r.perpWallDist();

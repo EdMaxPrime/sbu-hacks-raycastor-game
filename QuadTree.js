@@ -67,7 +67,7 @@ class QuadTree {
 				x = 0;
 			}
 			else if(str.charAt(i) == " ") {this.world[y].push(null); x++;}
-			else if(str.charAt(i) == "R") {this.world[y].push(new Solid(x, y, 1, new ImageTexture(textures[0]))); x++;}
+			else if(str.charAt(i) == "R") {this.world[y].push(new Solid(x, y, 1, new ImageTexture(textures[0].pixels, 32, 32))); x++;}
 			else if(str.charAt(i) == "Y") {this.world[y].push(new Solid(x, y, 1, new ColorTexture("yellow"))); x++;}
 			else if(str.charAt(i) == "G") {this.world[y].push(new Solid(x, y, 1, new ColorTexture("green"))); x++;}
 			else if(str.charAt(i) == "D") {this.world[y].push(new  Door(x, y, new ColorTexture("green"), this.updater)); x++;}
