@@ -4,7 +4,7 @@ class World {
 		this.terrain = new QuadTree(this);
 		this.sky = 2;
 		this.needToUpdate = [];
-		this.entities = [new Entity(2, 2)];
+		this.entities = [new Entity(0, 0, 0.5, 0.5, height / 4)];
 	}
 	whatsThere(x, y, z) {
 		z = z || 1;

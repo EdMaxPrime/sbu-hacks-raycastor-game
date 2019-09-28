@@ -80,8 +80,9 @@ class RayCastor {
 		var entities = this.world.entities.slice().sort(function(a, b) {
 			return ((this.camera.xpos - a.x) * (this.camera.xpos - a.x) + (this.camera.ypos - a.y) * (this.camera.ypos - a.y)) - ((this.camera.xpos - b.x) * (this.camera.xpos - b.x) + (this.camera.ypos - b.y) * (this.camera.ypos - b.y));
 		});
-		var m = this.camera.inverseMatrix();
 		//multiply camera matrix (2x2) by sprite coordinates (2x1)
+		//camera.inverseMatrix() -> 2x2 matrix as a length 4 array; spriteCoords = [x, y]; transform = matrix product as a length 2 array
+		var m = this.camera.inverseMatrix();
 		var spriteCoords = [];
 		var transform = [];
 		for(var i = entities.length - 1; i >= 0 ; i--) {
@@ -90,8 +91,8 @@ class RayCastor {
 			transform[0] = m[0] * spriteCoords[0] + m[1] * spriteCoords[1];
 			transform[1] = m[2] * spriteCoords[0] + m[3] * spriteCoords[1]; //depth inside the screen
 			var x = parseInt((this.entitiesStripes.length / 2) * (1 + transform[0] / transform[1]));
-			var h = abs(parseInt(height / transform[1]));
-			var w = abs(parseInt(this.entitiesStripes.length / transform[1]));
+			var h = abs(parseInt((height / transform[1]) * entities[i].scaleHeight));
+			var w = abs(parseInt((this.entitiesStripes.length / transform[1]) * entities[i].scaleWidth));
 			//j represents the stripes of this sprite from left to right
 			for(var j = parseInt(x - w/2); j <= parseInt(x + w/2); j++) {
 				//make sure this stripe of the entity is in front of camera plane, not to the left of the screen, not to the right of the screen, and not behind the closest wall 
@@ -102,7 +103,7 @@ class RayCastor {
 						closestTerrain = this.stripes[j][this.stripes[j].length - 1][3];
 					}
 					if(transform[1] < closestTerrain) {
-						this.entitiesStripes[j].push({x: x, w: w, h: h, e: entities[i], where: (j - (-w / 2 + x)) / w});
+						this.entitiesStripes[j].push({x: x, w: w, h: h, e: entities[i], where: (j - (-w / 2 + x)) / w, depth: transform[1]});
 					}
 				}
 			}

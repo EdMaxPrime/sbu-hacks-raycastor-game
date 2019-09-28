@@ -72,7 +72,7 @@ class Player {
 			//loop through each floor texture hit in this stripe
       //loop through each entity's stripe
       for(var j = 0; j < spriteBuff[i].length; j++) {
-        spriteBuff[i][j].e.drawStripe(spriteBuff[i][j].where, i * w, w, spriteBuff[i][j].h);
+        spriteBuff[i][j].e.drawStripe(spriteBuff[i][j].where, i * w, w, spriteBuff[i][j].h, spriteBuff[i][j].depth);
       }
     }
 	}
