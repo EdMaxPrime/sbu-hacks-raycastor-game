@@ -54,9 +54,11 @@ class Player {
 	drawPOV() {
 		this.raycastor.beginCasting();
 		this.raycastor.floorCast(this.getX(), this.getY(), 10);
+    this.raycastor.spriteCast();
 		noStroke(); //remove to see each stripe outlined
 		let buffer = this.raycastor.getTerrainBuffer(); //an array of Image objects, each representing a stripe on the screen
 		let floorBuff = this.raycastor.getFloorBuffer();
+    let spriteBuff = this.raycastor.getSpriteBuffer();
 		let w = floor(width/buffer.length);
 		fill(0);
 		rect(buffer.length * w, 0, width - buffer.length * w, height);
@@ -68,6 +70,10 @@ class Player {
         buffer[i][j][0].drawStripe(buffer[i][j][1], buffer[i][j][2], buffer[i][j][3], i * w, w);
       }
 			//loop through each floor texture hit in this stripe
+      //loop through each entity's stripe
+      for(var j = 0; j < spriteBuff[i].length; j++) {
+        spriteBuff[i][j].e.drawStripe(spriteBuff[i][j].where, i * w, w, spriteBuff[i][j].h);
+      }
     }
 	}
 

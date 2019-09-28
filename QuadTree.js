@@ -4,7 +4,7 @@ class World {
 		this.terrain = new QuadTree(this);
 		this.sky = 2;
 		this.needToUpdate = [];
-		this.entities = [];
+		this.entities = [new Entity(2, 2)];
 	}
 	whatsThere(x, y, z) {
 		z = z || 1;
@@ -67,7 +67,7 @@ class QuadTree {
 				x = 0;
 			}
 			else if(str.charAt(i) == " ") {this.world[y].push(null); x++;}
-			else if(str.charAt(i) == "R") {this.world[y].push(new Solid(x, y, 1, new PatternTexture(textures[0]))); x++;}
+			else if(str.charAt(i) == "R") {this.world[y].push(new Solid(x, y, 1, new ImageTexture(textures[0]))); x++;}
 			else if(str.charAt(i) == "Y") {this.world[y].push(new Solid(x, y, 1, new ColorTexture("yellow"))); x++;}
 			else if(str.charAt(i) == "G") {this.world[y].push(new Solid(x, y, 1, new ColorTexture("green"))); x++;}
 			else if(str.charAt(i) == "D") {this.world[y].push(new  Door(x, y, new ColorTexture("green"), this.updater)); x++;}
