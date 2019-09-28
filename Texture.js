@@ -52,25 +52,25 @@ class ColorTexture {
 }
 
 
-class PatternTexture {
-	constructor(bitmap) {
-		this.bitmap = bitmap;
-		this.textureHeight = bitmap.length;
-		this.textureWidth = bitmap[0].length;
+class ImageTexture {
+	constructor(pixels, width, height) {
+		this.pixels = pixels;
+		this.textureHeight = width;
+		this.textureWidth = height;
 	}
 	render(side, where, distance, x, w) {
 		let d = heightOverDistance.value(distance);
 		let pixelHeight = d / this.textureHeight;
 		let pixelX = floor(where * this.textureWidth);
 		for(let y = 0; y < this.textureHeight; y++) {
-			fill(this.bitmap[y][pixelX]);
+			fill(this.pixels[4 * (y * this.textureWidth + pixelX)], this.pixels[4 * (y * this.textureWidth + pixelX) + 1], this.pixels[4 * (y * this.textureWidth + pixelX) + 2], this.pixels[4 * (y * this.textureWidth + pixelX) + 3]);
 			rect(x, (height - d)/2 + y * pixelHeight, w, pixelHeight); 
 		}
 	}
 	drawPixel(floorX, floorY, x, y, w, h) {
 		let textureX = floor((floorX * this.textureWidth) % this.textureWidth);
 		let textureY = floor((floorY * this.textureHeight) % this.textureHeight);
-		fill(this.bitmap[textureY][textureX]);
+		fill(this.pixels[4 * (textureY * this.textureWidth + textureX)], this.pixels[4 * (textureY * this.textureWidth + textureX) + 1], this.pixels[4 * (textureY * this.textureWidth + textureX) + 2], this.pixels[4 * (textureY * this.textureWidth + textureX) + 3]);
 		rect(x, y, w, h);
 	}
 }

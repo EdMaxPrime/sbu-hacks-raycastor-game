@@ -2,25 +2,19 @@ var ground = "#764D0D";
 var sky = "#82CAFF";
 var player;
 var renderer;
-var textures = [[], [], []];
 var heightOverDistance;
 var state;
 var MAIN_MENU = 0, MAZE = 1;
 var player_score = 0;
+var textures = [];
+
+function preload() {
+	textures[0] = loadImage("blocks.jpeg");
+}
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	background(100);
-	for(let y = 0; y < 32; y++) {
-		textures[0].push([]);
-		textures[1].push([]);
-		textures[2].push([]);
-		for(let x = 0; x < 32; x++) {
-			textures[0][y][x] = color(4 * (x + y), 8 * y, 5);
-			textures[1][y][x] = color(5, 8 * y, 8 * (x ^ y));
-			textures[2][y][x] = color(64, 8 * x, 8 * y);
-		}
-	}
 	heightOverDistance = new Memoized(height, function(array) {
 		for(var i = 0.001; i < 10 * sqrt(2); i += 0.001) {
 			array.push({key: i, value: height / i});
